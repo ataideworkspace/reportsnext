@@ -1,0 +1,22 @@
+
+https://htmlcolorcodes.com/color-names/
+
+https://www.youtube.com/watch?v=kdXKz1UWc3E
+
+MUI material
+npm install @mui/material @emotion/react @emotion/styled
+
+
+https://react-bootstrap.netlify.app/forms/overview/
+
+
+Bootstrap
+https://react-bootstrap.github.io/components/buttons/
+
+
+icons
+https://react-icons.github.io/react-icons/icons?name=fa
+
+
+authentication google
+https://next-auth.js.org/providers/google

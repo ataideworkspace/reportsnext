@@ -1,5 +1,5 @@
 {
-  "name": "reportsnext",
+  "name": "pbetonreports",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,8 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.2.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/material": "^5.11.9",
+    "@next/font": "13.1.6",
+    "bluebird": "^3.7.2",
+    "bootstrap": "^5.2.3",
+    "bootstrap-icons": "^1.10.3",
+    "next": "13.1.6",
+    "next-auth": "^4.19.2",
+    "next-connect": "^0.13.0",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-bootstrap": "^2.7.2",
+    "react-dom": "18.2.0",
+    "react-game-icons": "^1.1.0",
+    "react-icons": "^4.7.1",
+    "reactstrap": "^9.1.6",
+    "sharp": "^0.31.3",
+    "swr": "^2.0.3"
   }
 }

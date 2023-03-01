@@ -1,11 +1,48 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import { Divider } from "@mui/material";
+import { Logo } from '@/components/Logo'
+import { Gravels } from '@/components/Gravels';
+import { useState } from 'react';
+import { Prix } from '@/components/Prix';
+import { Orders } from '@/components/Orders';
+import { Reports } from '@/components/Reports';
+import { Enterprises } from '@/components/Enterprises';
+import useSWR from 'swr'
+import { Login } from '@/components/Login';
+import { Menu } from '@/components/Menu';
+import { Loading } from '@/components/Loading';
 
-const inter = Inter({ subsets: ['latin'] })
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function Home() {
+
+  const [sect, setSect] = useState('login')
+
+  const getAuthorization = (childName) => {
+    setSect(childName)
+  }
+
+
+  const data_gravels = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels`, fetcher)
+  const data_products = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/products`, fetcher)
+  const data_gravel_products = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels_products`, fetcher)
+  const data_enterprises = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/enterprises`, fetcher)
+  const data_users = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/users`, fetcher)
+  const data_trucks = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/trucks`, fetcher)
+  const data_centrals = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/centrals`, fetcher)
+  const data_services = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/list_services`, fetcher)
+
+
+  if (data_gravels.error || data_products.error || data_enterprises.error || data_users.error || data_trucks.error || data_centrals.error || data_services.error || data_gravel_products.error) return (
+    <p>... error</p>
+  )
+
+  if (!data_gravels.data || !data_products.data || !data_enterprises.data || !data_users.data || !data_trucks.data || !data_centrals.data || !data_services.data || !data_gravel_products.data) return (
+    <Loading />
+  )
+
+
   return (
     <>
       <Head>
@@ -15,109 +52,27 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.js</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
+        <Logo />
+        <Menu sect={sect} retorno={getAuthorization} />
+        <Divider className={styles.divider} /><br></br>
+        <Login sect={sect} retorno={getAuthorization} />
+        <Gravels sect={sect} data_gravels={data_gravels} data_gravel_products={data_gravel_products} />
+        <Prix sect={sect} />
+        <Enterprises sect={sect} data_enterprises={data_enterprises} data_users={data_users} data_trucks={data_trucks} />
+        <Orders
+          sect={sect}
+          data_gravels={data_gravels}
+          data_products={data_products}
+          data_enterprises={data_enterprises}
+          data_users={data_users}
+          data_trucks={data_trucks}
+          data_centrals={data_centrals}
+          data_services={data_services}
+        />
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+        <Reports sect={sect} />
       </main>
     </>
   )
 }
+
