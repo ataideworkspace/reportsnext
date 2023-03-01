@@ -25,22 +25,43 @@ export default function Home() {
 
 
   const data_gravels = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels`, fetcher)
-  const data_products = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/products`, fetcher)
   const data_gravel_products = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels_products`, fetcher)
-  const data_enterprises = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/enterprises`, fetcher)
   const data_users = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/users`, fetcher)
   const data_trucks = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/trucks`, fetcher)
   const data_centrals = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/centrals`, fetcher)
-  const data_services = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/list_services`, fetcher)
+  const data_enterprises = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/enterprises`, fetcher)
 
 
-  if (data_gravels.error || data_products.error || data_enterprises.error || data_users.error || data_trucks.error || data_centrals.error || data_services.error || data_gravel_products.error) return (
+  if (data_gravels.error || data_enterprises.error || data_users.error || data_trucks.error || data_centrals.error || data_gravel_products.error) return (
     <p>... error</p>
   )
 
-  if (!data_gravels.data || !data_products.data || !data_enterprises.data || !data_users.data || !data_trucks.data || !data_centrals.data || !data_services.data || !data_gravel_products.data) return (
-    <p>..loading</p>
+  if (!data_gravels.data) return (
+    <Loading />
   )
+
+  if (!data_gravel_products.data) return (
+    <Loading />
+  )
+
+  if (!data_users.data) return (
+    <Loading />
+  )
+
+  if (!data_trucks.data) return (
+    <Loading />
+  )
+
+  if (!data_centrals.data) return (
+    <Loading />
+  )
+
+  if (!data_enterprises.data) return (
+    <Loading />
+  )
+
+
+
 
 
   return (
@@ -62,12 +83,10 @@ export default function Home() {
         <Orders
           sect={sect}
           data_gravels={data_gravels}
-          data_products={data_products}
           data_enterprises={data_enterprises}
           data_users={data_users}
           data_trucks={data_trucks}
           data_centrals={data_centrals}
-          data_services={data_services}
         />
 
         <Reports sect={sect} />

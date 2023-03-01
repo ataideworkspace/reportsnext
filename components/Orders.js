@@ -7,19 +7,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Fab, Input, Select, MenuItem, FormControl } from "@mui/material";
 import { FaEdit, FaTrashAlt, FaSave } from 'react-icons/fa';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 
 
 export const Orders = (props) => {
 
     let data_gravels = props.data_gravels
-    let data_products = props.data_products
     let data_enterprises = props.data_enterprises
     let data_users = props.data_users
     let data_trucks = props.data_trucks
     let data_centrals = props.data_centrals
-    let data_services = props.data_services.data
 
 
     const [gravel, setGravel] = useState('')
@@ -31,7 +29,14 @@ export const Orders = (props) => {
     const [dat, setDat] = useState('')
     const [order, setOrder] = useState('')
     const [central, setCentral] = useState('')
-    const [listOrders, setListOrders] = useState(data_services)
+    const [listOrders, setListOrders] = useState([])
+    const [data_products, setDataProducts] = useState([])
+
+
+    useEffect(() => {
+        fetchList()
+        fetchProducts()
+    }, []);
 
 
     const fetchList = async () => {
@@ -39,9 +44,10 @@ export const Orders = (props) => {
         let list = await response.json()
         setListOrders(list)
     }
-
-    const handleEdit = () => {
-        //jj
+    const fetchProducts = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/products');
+        let list = await response.json()
+        setDataProducts(list)
     }
 
 
@@ -74,7 +80,7 @@ export const Orders = (props) => {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
             })
-                .then((response) => console.log('ok'))
+                .then((response) => fetchList())
                 .then((json) => console.log('ok'));
         }
     }
@@ -86,8 +92,10 @@ export const Orders = (props) => {
         })
             .then(res => res.text()) // or res.json()
             .then(res => fetchList())
+    }
 
-
+    const handleEdit = () => {
+        console.log('ok')
     }
 
 
@@ -164,7 +172,7 @@ export const Orders = (props) => {
                                             label=""
                                             autoWidth
                                             onChange={(e) => setProduct(e.target.value)}>
-                                            {data_products.data.filter(data_products => gravel == data_products[2]).map((data_products) => (
+                                            {data_products.filter(data_products => gravel == data_products[2]).map((data_products) => (
                                                 <MenuItem key={data_products[0]} value={data_products[0]}>{data_products[1]}</MenuItem>
                                             ))}
                                         </Select>
