@@ -23,7 +23,6 @@ export default function Home() {
     setSect(childName)
   }
 
-
   const data_gravels = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels`, fetcher)
   const data_gravel_products = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels_products`, fetcher)
   const data_users = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/users`, fetcher)
