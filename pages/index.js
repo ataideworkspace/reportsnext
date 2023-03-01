@@ -39,7 +39,7 @@ export default function Home() {
   )
 
   if (!data_gravels.data || !data_products.data || !data_enterprises.data || !data_users.data || !data_trucks.data || !data_centrals.data || !data_services.data || !data_gravel_products.data) return (
-    <Loading />
+    <p>..loading</p>
   )
 
 
