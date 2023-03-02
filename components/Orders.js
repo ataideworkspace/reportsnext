@@ -13,13 +13,6 @@ import { useState, useEffect } from 'react';
 
 export const Orders = (props) => {
 
-    let data_gravels = props.data_gravels
-    let data_enterprises = props.data_enterprises
-    let data_users = props.data_users
-    let data_trucks = props.data_trucks
-    let data_centrals = props.data_centrals
-
-
     const [gravel, setGravel] = useState('')
     const [product, setProduct] = useState('')
     const [enterprise, setEnterprise] = useState('')
@@ -31,11 +24,20 @@ export const Orders = (props) => {
     const [central, setCentral] = useState('')
     const [listOrders, setListOrders] = useState([])
     const [data_products, setDataProducts] = useState([])
-
+    const [data_enterprises, setDataEnterprises] = useState([])
+    const [data_users, setDataUsers] = useState([])
+    const [data_trucks, setDataTrucks] = useState([])
+    const [data_gravels, setDataGravels] = useState([])
+    const [data_centrals, setDataCentrals] = useState([])
 
     useEffect(() => {
         fetchList()
         fetchProducts()
+        fetchEnterprises()
+        fetchUsers()
+        fetchTrucks()
+        fetchGravels()
+        fetchCentrals()
     }, []);
 
 
@@ -48,6 +50,34 @@ export const Orders = (props) => {
         let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/products');
         let list = await response.json()
         setDataProducts(list)
+    }
+    const fetchEnterprises = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/enterprises');
+        let list = await response.json()
+        setDataEnterprises(list)
+    }
+
+    const fetchUsers = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/users');
+        let list = await response.json()
+        setDataUsers(list)
+    }
+
+    const fetchTrucks = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/trucks');
+        let list = await response.json()
+        setDataTrucks(list)
+    }
+
+    const fetchGravels = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/gravels');
+        let list = await response.json()
+        setDataGravels(list)
+    }
+    const fetchCentrals = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/centrals');
+        let list = await response.json()
+        setDataCentrals(list)
     }
 
 
@@ -138,7 +168,7 @@ export const Orders = (props) => {
                                             label=""
                                             autoWidth
                                             onChange={(e) => setCentral(e.target.value)}>
-                                            {data_centrals.data.map((data_centrals) => (
+                                            {data_centrals.map((data_centrals) => (
                                                 <MenuItem key={data_centrals[0]} value={data_centrals[0]}>{data_centrals[1]}</MenuItem>
                                             ))}
                                         </Select>
@@ -157,7 +187,7 @@ export const Orders = (props) => {
                                             label=""
                                             autoWidth
                                             onChange={(e) => setGravel(e.target.value)}>
-                                            {data_gravels.data.map((data_gravels) => (
+                                            {data_gravels.map((data_gravels) => (
                                                 <MenuItem key={data_gravels[0]} value={data_gravels[0]}>{data_gravels[1]}</MenuItem>
                                             ))}
                                         </Select>
@@ -203,7 +233,7 @@ export const Orders = (props) => {
                                             label=""
                                             autoWidth
                                             onChange={(e) => setEnterprise(e.target.value)}>
-                                            {data_enterprises.data.map((data_enterprises) => (
+                                            {data_enterprises.map((data_enterprises) => (
                                                 <MenuItem key={data_enterprises[0]} value={data_enterprises[0]}>{data_enterprises[1]}</MenuItem>
                                             ))}
                                         </Select>
@@ -218,7 +248,7 @@ export const Orders = (props) => {
                                             label=""
                                             autoWidth
                                             onChange={(e) => setUser(e.target.value)}>
-                                            {data_users.data.filter(data_users => enterprise == data_users[4]).map((data_users) => (
+                                            {data_users.filter(data_users => enterprise == data_users[4]).map((data_users) => (
                                                 <MenuItem key={data_users[0]} value={data_users[0]}>{data_users[3]}</MenuItem>
                                             ))}
                                         </Select>
@@ -233,7 +263,7 @@ export const Orders = (props) => {
                                             label=""
                                             autoWidth
                                             onChange={(e) => setTruck(e.target.value)}>
-                                            {data_trucks.data.filter(data_trucks => enterprise == data_trucks[3]).map((data_trucks) => (
+                                            {data_trucks.filter(data_trucks => enterprise == data_trucks[3]).map((data_trucks) => (
                                                 <MenuItem key={data_trucks[0]} value={data_trucks[0]}>{data_trucks[4]}</MenuItem>
                                             ))}
                                         </Select>

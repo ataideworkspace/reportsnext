@@ -8,12 +8,8 @@ import { Prix } from '@/components/Prix';
 import { Orders } from '@/components/Orders';
 import { Reports } from '@/components/Reports';
 import { Enterprises } from '@/components/Enterprises';
-import useSWR from 'swr'
 import { Login } from '@/components/Login';
 import { Menu } from '@/components/Menu';
-import { Loading } from '@/components/Loading';
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export default function Home() {
 
@@ -22,46 +18,6 @@ export default function Home() {
   const getAuthorization = (childName) => {
     setSect(childName)
   }
-
-  const data_gravels = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels`, fetcher)
-  const data_gravel_products = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/gravels_products`, fetcher)
-  const data_users = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/users`, fetcher)
-  const data_trucks = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/trucks`, fetcher)
-  const data_centrals = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/centrals`, fetcher)
-  const data_enterprises = useSWR(`https://pbetonapi.herokuapp.com/api/v1/gravel/enterprises`, fetcher)
-
-
-  if (data_gravels.error || data_enterprises.error || data_users.error || data_trucks.error || data_centrals.error || data_gravel_products.error) return (
-    <p>... error</p>
-  )
-
-  if (!data_gravels.data) return (
-    <Loading />
-  )
-
-  if (!data_gravel_products.data) return (
-    <Loading />
-  )
-
-  if (!data_users.data) return (
-    <Loading />
-  )
-
-  if (!data_trucks.data) return (
-    <Loading />
-  )
-
-  if (!data_centrals.data) return (
-    <Loading />
-  )
-
-  if (!data_enterprises.data) return (
-    <Loading />
-  )
-
-
-
-
 
   return (
     <>
@@ -76,16 +32,11 @@ export default function Home() {
         <Menu sect={sect} retorno={getAuthorization} />
         <Divider className={styles.divider} /><br></br>
         <Login sect={sect} retorno={getAuthorization} />
-        <Gravels sect={sect} data_gravels={data_gravels} data_gravel_products={data_gravel_products} />
+        <Gravels sect={sect} />
         <Prix sect={sect} />
-        <Enterprises sect={sect} data_enterprises={data_enterprises} data_users={data_users} data_trucks={data_trucks} />
+        <Enterprises sect={sect} />
         <Orders
           sect={sect}
-          data_gravels={data_gravels}
-          data_enterprises={data_enterprises}
-          data_users={data_users}
-          data_trucks={data_trucks}
-          data_centrals={data_centrals}
         />
 
         <Reports sect={sect} />

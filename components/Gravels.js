@@ -8,11 +8,29 @@ import Paper from '@mui/material/Paper';
 import styles from '../styles/General.module.css'
 import { Fab } from "@mui/material";
 import { FaEdit } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 
-export const Gravels = (props, data_gravels, data_gravel_products) => {
+export const Gravels = (props) => {
 
-    data_gravels = props.data_gravels
-    data_gravel_products = props.data_gravel_products
+    const [data_gravels, setDataGravels] = useState([])
+    const [data_gravel_products, setDataGravelProducts] = useState([])
+
+    useEffect(() => {
+        fetchList()
+        fetchProducts()
+    }, []);
+
+
+    const fetchList = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/gravels');
+        let list = await response.json()
+        setDataGravels(list)
+    }
+    const fetchProducts = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/gravels_products');
+        let list = await response.json()
+        setDataGravelProducts(list)
+    }
 
     if (props.sect == 'gravel') {
         return (
@@ -34,7 +52,7 @@ export const Gravels = (props, data_gravels, data_gravel_products) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data_gravels.data.map((gravel) => (
+                                    {data_gravels.map((gravel) => (
                                         <TableRow key={gravel[0]}>
                                             <TableCell align="center">{gravel[0]}</TableCell>
                                             <TableCell align="center">{gravel[1]}</TableCell>
@@ -64,7 +82,7 @@ export const Gravels = (props, data_gravels, data_gravel_products) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data_gravel_products.data.map((product) => (
+                                    {data_gravel_products.map((product) => (
                                         <TableRow key={product[0]}>
                                             <TableCell align="center">{product[0]}</TableCell>
                                             <TableCell align="center">{product[1]}</TableCell>

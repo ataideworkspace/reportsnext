@@ -8,13 +8,39 @@ import Paper from '@mui/material/Paper';
 import styles from '../styles/General.module.css'
 import { Fab } from "@mui/material";
 import { FaEdit } from 'react-icons/fa';
-
+import { useState, useEffect } from 'react';
 
 export const Enterprises = (props) => {
 
-    let data_enterprises = props.data_enterprises
-    let data_users = props.data_users
-    let data_trucks = props.data_trucks
+
+
+    const [data_enterprises, setDataEnterprises] = useState([])
+    const [data_users, setDataUsers] = useState([])
+    const [data_trucks, setDataTrucks] = useState([])
+
+    useEffect(() => {
+        fetchEnterprises()
+        fetchUsers()
+        fetchTrucks()
+    }, []);
+
+    const fetchEnterprises = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/enterprises');
+        let list = await response.json()
+        setDataEnterprises(list)
+    }
+
+    const fetchUsers = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/users');
+        let list = await response.json()
+        setDataUsers(list)
+    }
+
+    const fetchTrucks = async () => {
+        let response = await fetch('https://pbetonapi.herokuapp.com/api/v1/gravel/trucks');
+        let list = await response.json()
+        setDataTrucks(list)
+    }
 
     if (props.sect == 'enterprises') {
         return (
@@ -36,7 +62,7 @@ export const Enterprises = (props) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data_enterprises.data.map((gravel) => (
+                                    {data_enterprises.map((gravel) => (
                                         <TableRow key={gravel[0]}>
                                             <TableCell align="center">{gravel[0]}</TableCell>
                                             <TableCell align="center">{gravel[1]}</TableCell>
@@ -66,7 +92,7 @@ export const Enterprises = (props) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data_trucks.data.map((truck) => (
+                                    {data_trucks.map((truck) => (
                                         <TableRow key={truck[0]}>
                                             <TableCell align="center">{truck[1]}</TableCell>
                                             <TableCell align="center">{truck[4]}</TableCell>
@@ -98,7 +124,7 @@ export const Enterprises = (props) => {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {data_users.data.map((product) => (
+                                    {data_users.map((product) => (
                                         <TableRow key={product[0]}>
                                             <TableCell align="center">{product[0]}</TableCell>
                                             <TableCell align="center">{product[1]}</TableCell>
